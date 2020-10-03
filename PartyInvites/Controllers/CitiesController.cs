@@ -28,6 +28,20 @@ namespace PartyInvites.Controllers
             return await _context.City.ToListAsync();
         }
 
+        // GET: api/Cities/GetFilteredCity
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<City>>> GetFilteredCity(string name)
+        {
+            if (name is null)
+            {
+                return await GetCityPage(1, 20);
+            }
+            else
+            {
+                return await _context.City.Where(c => c.Name.ToLower().StartsWith(name.ToLower())).ToListAsync();
+            }
+        }
+
         // GET: api/Cities/GetCityPage
         [HttpGet]
         public async Task<ActionResult<IEnumerable<City>>> GetCityPage(int pageNum,int countPerPage )
